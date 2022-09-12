@@ -151,15 +151,22 @@ x_test = scaler.transform(x_test)
 model2 = AdaBoostClassifier()
 model2.fit(x_train, y_train)
 y_pred = model2.predict(x_test)
-ConfusionMatrixDisplay.from_predictions(y_test,y_pred)
+# ConfusionMatrixDisplay.from_predictions(y_test,y_pred)
 plt.show()
 #
 model3 = RandomForestClassifier()
 model3.fit(x_train, y_train)
 y_pred = model3.predict(x_test)
-ConfusionMatrixDisplay.from_predictions(y_test,y_pred)
+# ConfusionMatrixDisplay.from_predictions(y_test,y_pred)
 plt.show()
-
+model4 = KNeighborsClassifier()
+model4.fit(x_train, y_train)
+y_pred = model4.predict(x_test)
+# ConfusionMatrixDisplay.from_predictions(y_test,y_pred)
+model5=DecisionTreeClassifier()
+model5.fit(x_train, y_train)
+y_pred =model5.predict(x_test)
+plt.show()
 
 ax=plt.subplot()
 #
@@ -167,9 +174,13 @@ plt.figure(figsize=(8,6))
 plt.title("ROC-Kurve")
 fpr, tpr, thresholds = metrics.roc_curve(y_test.values, model2.predict_proba(x_test)[:,1:])
 fpr2, tpr2, thresholds = metrics.roc_curve(y_test.values, model3.predict_proba(x_test)[:,1:])
+fpr3, tpr3, thresholds = metrics.roc_curve(y_test.values, model4.predict_proba(x_test)[:,1:])
+fpr4, tpr4, thresholds = metrics.roc_curve(y_test.values, model5.predict_proba(x_test)[:,1:])
 plt.plot([0,1],[0,1],ls="--",c="black",alpha=0.2)
 plt.plot(fpr,tpr,label="ROC-Graph AdaBoost",c="#1ACC94")
 plt.plot(fpr2,tpr2,label="ROC-Graph RandomForest",c="#CC1B58")
+plt.plot(fpr3,tpr3,label="ROC-Graph kNN",c="#1E90FF")
+plt.plot(fpr4,tpr4,label="ROC-Graph DecisionTree",c="#DAA520")
 
 
 plt.xlabel("False-Positive Rate (FPR)")
@@ -179,7 +190,9 @@ plt.show()
 
 auroc = metrics.auc(fpr, tpr)
 auroc2 = metrics.auc(fpr2,tpr2)
-print(auroc, auroc2)
+auroc3= metrics.auc(fpr3,tpr3)
+auroc4=metrics.auc(fpr4,tpr4)
+print(auroc, auroc2, auroc3, auroc4)
 #
 
 #
